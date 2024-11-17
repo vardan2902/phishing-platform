@@ -1,0 +1,2 @@
+export const buildUrl = (base: string, email: string): string => `${base}/phishing/click?email=${email}`
+export const buildContent = (url: string): string => `<p>This is a phishing attack. Click <a href="${url}">here</a> and get the result.</p>`;

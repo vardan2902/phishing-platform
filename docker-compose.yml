@@ -1,0 +1,45 @@
+services:
+  server:
+    build:
+      context: ./server
+      target: production
+    depends_on:
+      - mongodb
+    env_file:
+      - ./server/.env
+    ports:
+      - "4000:4000"
+    networks:
+      - phishing-app
+
+  app:
+    build:
+      context: ./app
+      target: production
+    env_file:
+      - ./app/.env
+    ports:
+      - "80:4173"
+    networks:
+      - phishing-app
+
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: phishing
+    volumes:
+      - ./db_data:/data/db
+    networks:
+      - phishing-app
+
+volumes:
+  db_data:
+
+networks:
+  phishing-app:
+    name: phishing-app
